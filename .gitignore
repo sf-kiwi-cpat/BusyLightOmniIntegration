@@ -43,6 +43,12 @@ $RECYCLE.BIN/
 **/__pycache__/
 **/.venv/
 **/venv/
+
+#Manually added
 scripts/apex/hello.apex
 .gitignore
 scripts/soql/account.soql
+config/
+.husky/
+.vscode/
+jest.config.js
