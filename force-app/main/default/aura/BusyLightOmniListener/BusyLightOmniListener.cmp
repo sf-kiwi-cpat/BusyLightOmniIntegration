@@ -1,4 +1,7 @@
 <aura:component implements="lightning:backgroundUtilityItem">
+    <aura:attribute name="enableConsoleLogging" type="Boolean" default="true" /> <!-- Flip this attribute before distributing - should only be true for debugging -->
+
+    <!-- Omni Toolkit API and all the events to listen to -->
     <lightning:omniToolkitAPI aura:id="omniToolkit" />  
     <aura:handler event="lightning:omniChannelLoginSuccess" action="{! c.loginSuccess }"/>
     <aura:handler event="lightning:omniChannelStatusChanged" action="{! c.statusUpdate }"/>
@@ -8,12 +11,11 @@
     <aura:handler event="lightning:omniChannelWorkFlagUpdated" action="{! c.flagUpdated }"/>
     <aura:handler event="lightning:omniChannelWorkloadChanged" action="{! c.capacityUpdate }"/>
     <aura:handler event="lightning:omniChannelConnectionError" action="{! c.loginError }"/>
+
+    <!-- Attributes to manage current state -->
     <aura:attribute name="isOffline" type="Boolean" default="true" />
     <aura:attribute name="isBusy" type="Boolean" default="false" />
     <aura:attribute name="isAtCapacity" type="Boolean" default="false" />
     <aura:attribute name="workPendingAccept" type="Boolean" default="false" />
     <aura:attribute name="flagRaised" type="Boolean" default="false" />
-    
-    <c:busyLightHttpRequestor aura:id="busyLightTestHttp" name="busyLightHttpRequestor"></c:busyLightHttpRequestor>
-
 </aura:component>	

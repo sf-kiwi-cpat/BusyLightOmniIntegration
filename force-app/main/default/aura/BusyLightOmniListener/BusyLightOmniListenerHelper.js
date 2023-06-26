@@ -1,29 +1,38 @@
 ({
+    updateOffline : function(component, isOffline) {
+        component.set('v.isOffline', isOffline);
+    },
+
+    updateWorkPending : function(component, isWorkPending) {
+        component.set('v.workPendingAccept', isWorkPending);
+    },
+
     updateCapacity : function(component, configuredCapacity, newWorkload) {
         if (newWorkload >= configuredCapacity && !component.get('v.isAtCapacity'))
         {
-            this.logToConsole("Setting at Capacity true");
+            // Workload equal or greater than allowed capacity - so set at capacity true.
+            this.logToConsole(component,"Setting at Capacity true");
             component.set('v.isAtCapacity', true);
         }
         else if (component.get('v.isAtCapacity'))
         {
             // No longer at capacity - flip flag
-            this.logToConsole("Setting at Capacity false");
+            this.logToConsole(component,"Setting at Capacity false");
             component.set('v.isAtCapacity', false);
         }
     },
 
     updateBusy : function(component, channelValue) {
-        this.logToConsole("channelValue: " + channelValue);
-        this.logToConsole("channelValue.length: " + channelValue ? channelValue.length : "null");
+        this.logToConsole(component,"channelValue: " + channelValue);
+        this.logToConsole(component,"channelValue.length: " + channelValue ? channelValue.length : "null");
         // ChannelValue will be an empty string for busy, otherwise will contain something if it's an available state
         if (channelValue && channelValue.length === 0 && !component.get('v.isBusy'))
         {
-            this.logToConsole("Setting Busy true");
+            this.logToConsole(component,"Setting Busy true");
             component.set('v.isBusy', true);
         }
         else if (component.get('v.isBusy') && channelValue && channelValue.length > 0) {
-            this.logToConsole("Setting Busy false");
+            this.logToConsole(component,"Setting Busy false");
             component.set('v.isBusy', false);
         }
     },
@@ -31,7 +40,7 @@
     updateFlagRaised : function(component, isFlagged) {
         if (isFlagged != component.get('v.flagRaised')) {
             // Set flagged state if not already matching
-            this.logToConsole("Setting flagRaised to " + isFlagged);
+            this.logToConsole(component,"Setting flagRaised to " + isFlagged);
             component.set('v.flagRaised', isFlagged);
         }
     },
@@ -49,7 +58,7 @@
     },
 
     setLightIdle : function(component) {
-        // Not used - this is the same as off though
+        // Not used - this is the same as off though - would need to revise the colors to be used
         this.updateLight(component, 'light', 0, 0, 0);
     },
 
@@ -66,6 +75,7 @@
     },
 
     resetLightState : function (component) {
+        // Function that determines what state the light should be in
         if (component.get('v.isOffline'))
         {
             this.setLightOff(component);
@@ -89,24 +99,46 @@
         else {
             this.setLightAvailable(component);
         }
-        
     },
 
     updateLight : function(component, action, red, green, blue) {
-        this.logToConsole("parameters: action:" + action + ", red:" + red + ", green:" + green + ", blue:" + blue);
+        // Function to call to the LWC component to make the https request to the light.
+        this.logToConsole(component,"parameters: action:" + action + ", red:" + red + ", green:" + green + ", blue:" + blue);
+        this.getRequest(action,red,green,blue);
+    },
+
+    getRequest : function(action, red, green, blue)
+    {
+        // First attempt to send the HTTP request from Aura - seems to fail, so moved it to LWC
+        var parameters = 'action=' + action;
+        
+        if ((red >= 0 && red <= 100) && (green >= 0 && green <= 100) && (blue >= 0 && blue <= 100))
+        {
+            parameters += '&red=' + red + '&green=' + green + '&blue=' + blue;
+        }
+
+        const Http = new XMLHttpRequest();
+        //Http.open("GET", requestURL);
+        this.logToConsole(component,"parameters: " + parameters);
         try 
         {   
-            component.find('busyLightTestHttp').sendRequest(action,red,green,blue);
+            Http.open("GET", 'http:////localhost:8989/?' + parameters);
+            Http.send();
         }
         catch (err)
         {
-            this.logToConsole("Error - " + err.message,true);
+            this.logToConsole(component,"BusyLight: Error - " + err.message,true);
         }
-        
+
+        Http.onreadystatechange = (e) => {
+            this.logToConsole(component,"Request Response: " + Http.responseText)
+        }
+
     },
 
-    logToConsole : function(whatToLog, isError) {
-        if (true)
+    logToConsole : function(component, whatToLog, isError) {
+        // Function to easily turn logging on and off when releasing
+        if (component.get("v.enableConsoleLogging"))
         {
             if (isError)
             {
@@ -117,36 +149,6 @@
             }
             
         }
-    },
-
-    legacyCode : function()
-    {
-        const HOST = "http://localhost:8989/?";
-        var requestURL;
-        if (action)
-        {
-            requestURL = HOST + 'action=' + action;
-        }
-        else
-        {
-            console.error("BusyLight: No Action passed");
-            return;
-        }
-
-        if (red && green && blue)
-        {
-            requestURL += '&red=' + red + '&green=' + green + '&blue=' + blue;
-        }
-
-        const Http = new XMLHttpRequest();
-        Http.onreadystatechange = (e) => {
-            this.logToConsole("BusyLight: " + Http.responseText)
-        }
-        //Http.send();
-
-        // Deep pink: red=100&green=0&blue=23
-        // Orange: red=100&green=10
     }
-
 
 })
