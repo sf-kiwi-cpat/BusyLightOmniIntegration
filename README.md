@@ -5,6 +5,7 @@ This project listens to the various Omni-Channel Toolkit events and sends a GET 
 ### Pre-reqs
 1. Omni-Channel enabled in setup 
 2. At least 1 channel configured
+3. BusyLight http server running on local machine, listening on port 8989
 
 ### To get this working in an Org:
 1. Import Aura component into your Org
