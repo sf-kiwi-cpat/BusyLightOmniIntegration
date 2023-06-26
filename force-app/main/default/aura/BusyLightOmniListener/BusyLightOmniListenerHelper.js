@@ -109,31 +109,27 @@
 
     getRequest : function(action, red, green, blue)
     {
-        // First attempt to send the HTTP request from Aura - seems to fail, so moved it to LWC
+        // Send the request to the localhost server with the passed parameters
         var parameters = 'action=' + action;
-        
         if ((red >= 0 && red <= 100) && (green >= 0 && green <= 100) && (blue >= 0 && blue <= 100))
         {
             parameters += '&red=' + red + '&green=' + green + '&blue=' + blue;
         }
 
         const Http = new XMLHttpRequest();
-        //Http.open("GET", requestURL);
         this.logToConsole(component,"parameters: " + parameters);
         try 
         {   
             Http.open("GET", 'http:////localhost:8989/?' + parameters);
+            Http.onreadystatechange = (e) => {
+                this.logToConsole(component,"Request Response: " + Http.responseText)
+            }
             Http.send();
         }
         catch (err)
         {
             this.logToConsole(component,"BusyLight: Error - " + err.message,true);
         }
-
-        Http.onreadystatechange = (e) => {
-            this.logToConsole(component,"Request Response: " + Http.responseText)
-        }
-
     },
 
     logToConsole : function(component, whatToLog, isError) {

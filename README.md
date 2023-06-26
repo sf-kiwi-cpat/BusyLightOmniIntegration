@@ -1,6 +1,14 @@
 # BusyLight and Omni-Channel Integration
 
-This 
+This project listens to the various Omni-Channel Toolkit events and sends a GET request to a local http server, as appropriate to update the light.
+
+#Pre-reqs
+1. Omni-Channel setup and configured with at least 1 channel
+
+#To get this working in an Org:
+1. Import Aura component into your Org
+2. Add Component to the Utility bar of your Service Console - this can be done from 'App Manager', selecting 'Edit' on your App, clicking on Utility Items option, and adding the 'BusyLightOmniListener' item and save
+3. Login as an Agent and login to Omni-Channel - light should light up (assuming your local server is running on localhost:8989)
 
 ## Salesforce Developer guides
 
