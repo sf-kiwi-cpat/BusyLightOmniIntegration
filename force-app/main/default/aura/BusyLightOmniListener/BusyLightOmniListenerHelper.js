@@ -104,10 +104,10 @@
     updateLight : function(component, action, red, green, blue) {
         // Function to call to the LWC component to make the https request to the light.
         this.logToConsole(component,"parameters: action:" + action + ", red:" + red + ", green:" + green + ", blue:" + blue);
-        this.getRequest(action,red,green,blue);
+        this.getRequest(component,action,red,green,blue);
     },
 
-    getRequest : function(action, red, green, blue)
+    getRequest : function(component, action, red, green, blue)
     {
         // Send the request to the localhost server with the passed parameters
         var parameters = 'action=' + action;
