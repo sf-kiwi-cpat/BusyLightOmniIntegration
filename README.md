@@ -2,18 +2,18 @@
 
 This project listens to the various Omni-Channel Toolkit events and sends a GET request to a local http server, as appropriate to update the light.
 
-#Pre-reqs
+# Pre-reqs
 1. Omni-Channel enabled in setup 
 2. At least 1 channel configured
 
-#To get this working in an Org:
+# To get this working in an Org:
 1. Import Aura component into your Org
 2. Add Component to the Utility bar of your Service Console - this can be done by
- - Open 'App Manager' from setup
- - Selecting 'Edit' on your App
- - Clicking on Utility Items option
- - Add the 'BusyLightOmniListener' item
- - Save changes
+   - Open 'App Manager' from setup
+   - Selecting 'Edit' on your App
+   - Clicking on Utility Items option
+   - Add the 'BusyLightOmniListener' item
+   - Save changes
 3. Login as an Agent in the App you just edited and login to Omni-Channel - light should light up (assuming your local server is running on localhost:8989)
 
 
