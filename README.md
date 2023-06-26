@@ -20,6 +20,7 @@ This project listens to the various Omni-Channel Toolkit events and sends a GET 
 ## Options to extend
 1. Load light colors/actions from Custom Metadata to allow admin level customization of light - https://help.salesforce.com/s/articleView?id=sf.custommetadatatypes_overview.htm&language=en_US&type=5 
 2. Add a setup page/flow for Admins to run to configure colors/actions (enhanced version of 1 above - would/could still save to custom metadata)
+3. Keep track of the number of work items routed and accepted to keep light flashing until all work is accepted (or all flags lowered etc.)
 
 
 ## Salesforce Developer guides
