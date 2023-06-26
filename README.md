@@ -15,7 +15,8 @@ This project listens to the various Omni-Channel Toolkit events and sends a GET 
    - Clicking on Utility Items option
    - Add the 'BusyLightOmniListener' item
    - Save changes
-3. Login as an Agent in the App you just edited and login to Omni-Channel - light should light up (assuming your local server is running on localhost:8989)
+3. From Setup, go to 'CSP Trusted Sites' and add 'http://localhost:8989' as the 'Trusted Site URL', and check the box for 'Allow site for connect-src'
+4. Login as an Agent in the App you just edited and login to Omni-Channel - light should light up (assuming your local server is running on localhost:8989)
 
 
 ## Options to extend
