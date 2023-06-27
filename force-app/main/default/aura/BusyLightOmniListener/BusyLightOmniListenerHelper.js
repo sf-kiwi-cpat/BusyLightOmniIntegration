@@ -2,10 +2,12 @@
     updateOffline : function(component, isOffline) {
         component.set('v.isOffline', isOffline);
         // Clear status of everything else - these will get reset on login
-        component.set('v.workPendingAccept', false);
-        component.set('v.isAtCapacity', false);
-        component.set('v.isBusy', false);
-        component.set('v.flagRaised', false);
+        if (isOffline) {
+            component.set('v.workPendingAccept', false);
+            component.set('v.isAtCapacity', false);
+            component.set('v.isBusy', false);
+            component.set('v.flagRaised', false);
+        }
     },
 
     updateWorkPending : function(component, isWorkPending) {
