@@ -135,7 +135,7 @@
         }
         catch (err)
         {
-            this.logToConsole(component,"BusyLight: Error - " + err.message,true);
+            this.logToConsole(component,"Error - " + err.message,true);
         }
     },
 
